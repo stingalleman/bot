@@ -85,6 +85,17 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		s.ChannelMessageSend(m.ChannelID, msg)
 
 		res.Close()
+	} else if strings.HasPrefix(m.Content, ".rm") && m.Author.ID == "125916793817530368" {
+		msg := strings.Split(m.Content, " ")
+		name := msg[1]
+
+		_, err := db.Exec("DELETE FROM `karma` WHERE `name`=?;", name)
+		if err != nil {
+			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("sql is stukkie wukkie (3): %s", err))
+			return
+		}
+
+		s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%s has been removed from the karma list.", name))
 	} else if strings.HasSuffix(m.Content, "++") {
 		// ++
 		msg := strings.Split(m.Content, "++")
