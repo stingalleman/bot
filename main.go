@@ -89,6 +89,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		// ++
 		msg := strings.Split(m.Content, "++")
 		name := strings.TrimSpace(msg[0])
+		name = strings.ReplaceAll(name, "@", "")
 
 		_, err := db.Exec("INSERT OR IGNORE INTO `karma` (name) VALUES(?);", name)
 		if err != nil {
@@ -115,6 +116,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		// --
 		msg := strings.Split(m.Content, "--")
 		name := strings.TrimSpace(msg[0])
+		name = strings.ReplaceAll(name, "@", "")
 
 		_, err := db.Exec("INSERT OR IGNORE INTO `karma` (name) VALUES(?);", name)
 		if err != nil {
