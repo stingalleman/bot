@@ -101,25 +101,16 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			return
 		}
 
-		res, err := db.Query(fmt.Sprintf("SELECT `count`, `name` FROM `karma` WHERE `name`='%s';", name))
+		res := db.QueryRow("SELECT `count`, `name` FROM `karma` WHERE `name`=?;", name)
+
+		var resCount int
+		var resName string
+		err = res.Scan(&resCount, &resName)
 		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("sql is stukkie wukkie (3): %s", err))
-			return
+			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("sql is stukkie wukkie (4): %s", err))
 		}
 
-		for cont := true; cont; cont = res.NextResultSet() {
-			for res.Next() {
-				var count int
-				var name string
-				err = res.Scan(&count, &name)
-				if err != nil {
-					s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("sql is stukkie wukkie (4): %s", err))
-				}
-
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%s: %v", name, count))
-			}
-		}
-		res.Close()
+		s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%s: %v", resName, resCount))
 	} else if strings.HasSuffix(m.Content, "--") {
 		// --
 		msg := strings.Split(m.Content, "--")
@@ -136,24 +127,15 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			return
 		}
 
-		res, err := db.Query(fmt.Sprintf("SELECT `count`, `name` FROM `karma` WHERE `name`='%s';", name))
+		res := db.QueryRow("SELECT `count`, `name` FROM `karma` WHERE `name`=?;", name)
+
+		var resCount int
+		var resName string
+		err = res.Scan(&resCount, &resName)
 		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("sql is stukkie wukkie (3): %s", err))
-			return
+			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("sql is stukkie wukkie (4): %s", err))
 		}
 
-		for cont := true; cont; cont = res.NextResultSet() {
-			for res.Next() {
-				var count int
-				var name string
-				err = res.Scan(&count, &name)
-				if err != nil {
-					s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("sql is stukkie wukkie (4): %s", err))
-				}
-
-				s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%s: %v", name, count))
-			}
-		}
-		res.Close()
+		s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%s: %v", resName, resCount))
 	}
 }
