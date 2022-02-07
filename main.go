@@ -80,7 +80,6 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			}
 
 			if count == 0 {
-				res.Close()
 				continue
 			}
 
@@ -91,7 +90,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			msg += fmt.Sprintf("%s: %d\n", name, count)
 		}
 
-		s.ChannelMessageSend(m.ChannelID, msg)
+		s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("```\n%s```", msg))
 
 		res.Close()
 	} else if strings.HasPrefix(m.Content, ".rm") && m.Author.ID == "125916793817530368" {
