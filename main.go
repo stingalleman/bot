@@ -80,11 +80,12 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 			}
 
 			if count == 0 {
-				return
+				res.Close()
+				continue
 			}
 
 			if name == "" {
-				return
+				continue
 			}
 
 			msg += fmt.Sprintf("%s: %d\n", name, count)
