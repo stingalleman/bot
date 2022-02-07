@@ -79,6 +79,14 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 				return
 			}
 
+			if count == 0 {
+				return
+			}
+
+			if name == "" {
+				return
+			}
+
 			msg += fmt.Sprintf("%s: %d\n", name, count)
 		}
 
@@ -101,6 +109,9 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		msg := strings.Split(m.Content, "++")
 		name := strings.TrimSpace(msg[0])
 		name = strings.ReplaceAll(name, "@", "")
+		if name == "" {
+			return
+		}
 
 		_, err := db.Exec("INSERT OR IGNORE INTO `karma` (name) VALUES(?);", name)
 		if err != nil {
@@ -128,6 +139,9 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		msg := strings.Split(m.Content, "--")
 		name := strings.TrimSpace(msg[0])
 		name = strings.ReplaceAll(name, "@", "")
+		if name == "" {
+			return
+		}
 
 		_, err := db.Exec("INSERT OR IGNORE INTO `karma` (name) VALUES(?);", name)
 		if err != nil {
