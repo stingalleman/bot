@@ -99,6 +99,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		name := strings.TrimSpace(msg[0])
 		name = strings.ReplaceAll(name, "@", "")
 		name = strings.ReplaceAll(name, "`", "")
+		name = strings.ReplaceAll(name, "#", "")
 
 		if name == "" {
 			return
@@ -131,6 +132,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		name := strings.TrimSpace(msg[0])
 		name = strings.ReplaceAll(name, "@", "")
 		name = strings.ReplaceAll(name, "`", "")
+		name = strings.ReplaceAll(name, "#", "")
 
 		if name == "" {
 			return
